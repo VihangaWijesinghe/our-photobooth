@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Our PhotoBooth 💕</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>💕 Our PhotoBooth</h1>
+
+    <div id="roomMenu">
+
+        <h2>Create a Room</h2>
+
+        <button id="createRoomButton">
+            ✨ Create Room
+        </button>
+
+        <p>or</p>
+
+        <h2>Join a Room</h2>
+
+        <input
+            id="roomCodeInput"
+            type="text"
+            placeholder="Enter room code"
+            maxlength="6"
+        >
+
+        <button id="joinRoomButton">
+            💕 Join Room
+        </button>
+
+    </div>
+
+    <div id="roomInfo" style="display: none;">
+
+        <h2>Your Room</h2>
+
+        <div id="roomCode"></div>
+
+        <p id="roomStatus">
+            Waiting for the other person...
+        </p>
+
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="supabase.js"></script>
+
+    <script src="room.js"></script>
+
+</body>
+
+</html>

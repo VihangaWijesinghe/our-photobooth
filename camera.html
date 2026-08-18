@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Camera 📸</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+    #photoCanvas {
+        display: none;
+    }
+    </style>
+</head>
+
+<body>
+
+    <h1>📸 Our PhotoBooth</h1>
+
+    <video id="camera" autoplay playsinline></video>
+
+    <br><br>
+
+    <button id="startCamera">📷 Start Camera</button>
+    <div id="countdown"></div>
+    <button id="captureButton">📸 Take Photo</button>
+
+    <canvas id="photoCanvas"></canvas>
+
+    <div id="photoResults">
+    <div>
+        <h3>Photo 1 📸</h3>
+        <img id="photo1" alt="Photo 1">
+    </div>
+
+    <div>
+        <h3>Photo 2 📸</h3>
+        <img id="photo2" alt="Photo 2">
+    </div>
+    </div>
+    <div id="finalResult">
+    <h2>💕 Our Photobooth 💕</h2>
+
+    <canvas id="finalCanvas"></canvas>
+
+    <button id="downloadButton">
+        💾 Download Photo
+    </button>
+ </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+    <script src="camera.js"></script>    
+</body>
+</html>
