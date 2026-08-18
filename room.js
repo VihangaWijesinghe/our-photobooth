@@ -19,6 +19,8 @@ const roomCodeDisplay =
 const roomStatus =
     document.getElementById("roomStatus");
 
+let currentChannel = null;
+
 
 // ============================
 // CREATE ROOM
@@ -34,11 +36,44 @@ createRoomButton.addEventListener("click", async () => {
     roomInfo.style.display = "block";
 
     roomStatus.textContent =
-        "Waiting for the other person...";
+        "Creating room...";
 
-    await supabaseClient
-        .channel("room-" + roomCode)
-        .subscribe();
+    currentChannel =
+        supabaseClient.channel("room-" + roomCode, {
+            config: {
+                broadcast: {
+                    self: false
+                }
+            }
+        });
+
+    currentChannel
+        .on("broadcast", { event: "join" }, () => {
+
+            roomStatus.textContent =
+                "💕 Both devices connected!";
+
+            // Tell the joining device that
+            // the room creator is ready.
+            currentChannel.send({
+                type: "broadcast",
+                event: "creator-ready",
+                payload: {
+                    message: "Creator is ready!"
+                }
+            });
+
+        })
+        .subscribe((status) => {
+
+            if (status === "SUBSCRIBED") {
+
+                roomStatus.textContent =
+                    "Waiting for the other person...";
+
+            }
+
+        });
 });
 
 
@@ -64,14 +99,45 @@ joinRoomButton.addEventListener("click", async () => {
     roomInfo.style.display = "block";
 
     roomStatus.textContent =
-        "Joining room...";
+        "Connecting...";
 
-    await supabaseClient
-        .channel("room-" + roomCode)
-        .subscribe();
+    currentChannel =
+        supabaseClient.channel("room-" + roomCode, {
+            config: {
+                broadcast: {
+                    self: false
+                }
+            }
+        });
 
-    roomStatus.textContent =
-        "Connected to room! 💕";
+    currentChannel
+        .on("broadcast", { event: "creator-ready" }, () => {
+
+            roomStatus.textContent =
+                "💕 Both devices connected!";
+
+        })
+        .subscribe(async (status) => {
+
+            if (status === "SUBSCRIBED") {
+
+                roomStatus.textContent =
+                    "Connected! Waiting for host...";
+
+                // Tell the creator that
+                // someone joined.
+                await currentChannel.send({
+                    type: "broadcast",
+                    event: "join",
+                    payload: {
+                        message: "Someone joined!"
+                    }
+                });
+
+            }
+
+        });
+
 });
 
 
